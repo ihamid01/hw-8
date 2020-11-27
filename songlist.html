@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Set List</title>
+        <script type="text/javascript" src="songlist.json"></script>
+    <style type="text/css">
+        form {
+            padding: 10px;
+            padding-left: 35px;
+            }
+        div{padding-left: 20px; }
+        input[type=submit] {
+    font-family: garamond;
+    background-color: lightpink;
+    font-size: 25px;
+    color: black;
+    font-style: bold;
+    padding: 10px 10px;
+    margin: 8px ;
+    border: solid;
+    border-radius: 3px;
+    cursor: pointer;
+}
+input[type=text], select {
+    font-family: 'garamond';
+    padding: 5px 7px;
+    margin: 8px;
+    font-size: 18px;
+    border: solid ;   
+    border-color: black;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+
+
+    </style>    
+</head>
+
+<body style='background: lavenderblush;'>
+    <h1> Set List </h1>
+    <script>
+    
+    function displayFormat() {
+        document.write("Formatted Setlist: <br><br><br>");
+
+        for (i = 0; i < 11; i++) {
+            document.write("<div id='" + i + "' class= '" + songlist[i].genre + "'><div><a>" + songlist[i].title + "</a></div>");
+            document.write("<div>Artist: " + songlist[i].name +"<br></div>");
+            document.write("<div>Genre: " + songlist[i].genre + "<br></div>");
+            document.write("<div>Year: " + songlist[i].year +"<br></div>");
+            document.write("<br></div>");
+        }
+    }
+
+    function display() {
+        var data = "";
+        data = JSON.stringify(songlist);
+        document.write("Here's the serialized JSON data: <br><br>");
+        document.write(data + "<br><br><br><br>");
+    } 
+
+    function initalStyle(){
+        for (i = 0; i < 11; i++) {
+                    document.getElementById(i).style.display = "block";
+            }
+    }
+    
+    display();
+    displayFormat();
+        
+    window.onload = function() {
+                           
+        document.getElementById("filterBTN").onclick = function () {
+            var selectedGenre = document.getElementById("selection").value;
+
+                initalStyle();
+                var currSong;
+                var genre;
+            
+                for (j = 0; j < 11; j++) {
+                    currSong = document.getElementById(j);
+                    genre = document.getElementById(j).className;
+    
+                    if (genre != selectedGenre) {
+                        currSong.style.display = "none";
+                    }
+                }
+                return false;
+            };
+        
+          };
+
+    </script>
+    
+  <form onsubmit="return false">
+        <select id="selection">
+            <option value="Pop">Pop</option>
+            <option value="RB/Soul">RB/Soul</option>
+            <option value="Dance/Electronic">Dance/Electronic</option>
+            <option value="Rock">Rock</option>
+            <option value="Alternative/Indie">Alternative/Indie</option>
+        </select>
+        <input id="filterBTN" type = "submit" value="Filter By Genre">
+    </form>
+    
+</body>
+</html>
