@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pokemon API</title>
+	<script>
+		function getPoke() {
+			request = new XMLHttpRequest();
+			console.log("1 - Request made");
+		    num = Math.floor(Math.random() * 100) + 1;
+			var webAddress = "https://pokeapi.co/api/v2/pokemon/"
+			request.open("GET", webAddress + num, true);
+			console.log("2 - Opened the API");
+ 	
+			request.onreadystatechange = function() {
+				console.log("3 -readystatechange event fired");
+			
+				if (request.readyState == 4 && request.status == 200) {
+					console.log("5 - Response recieved");
+
+					var result = request.responseText;
+					var poki = JSON.parse(result);
+					var name = poki["forms"][0]["name"] + ": ";
+					var type = poki["types"][0]["type"]["name"] + "<br/>";
+					document.getElementById("pokemon").innerHTML = name + type;
+				}
+				else if (request.readyState == 4 && request.status != 200) {
+					document.getElementById("pokemon").innerHTML = "Oops, bad HTTP status.";
+				}
+
+				else if (request.readyState == 3) {
+					console.log("6 - Almost ready, waiting on data");
+					document.getElementById("pokemon").innerHTML = "Almost ready!";
+				}
+			}
+			request.send();
+			console.log("4 - HTTP request sent");
+		}
+	</script>
+</head>
+
+<body onload="getPoke()">
+	<h1>Gotta catch 'em all!</h1>
+	<div id="pokemon" style="font-size: 25px"></div>
+	<p> (Refresh for a new Pokemon!) </p>
+	<br>
+		<h2> Questions </h2>
+
+	<p> 1. I decided to use the Pokemon API. This is an API that has a collection of thousands of pokemon and information about them, all of which are submitted by coders around the world via a Pull Request on Github. The API contains information about their moves, abilities, types, egg groups, evolution chains and more. There are multiple endpoints to this API so the user to specify what information they want returned. There is the option to get one piece of information about a particular pokemon, which is what I did by requesting information related to their type, or they can request any number or combination of the information listed above. 
+	</p>
+
+	<p> 2. I found the website through the public API resources under the modules/reading assignment. This is the <a href="https://github.com/PokeAPI/pokeapi">link</a></p>
+
+	<p> 3. Here, I made a GET request to the API. I made the request go to the pokemon database where a number is used to track a specific pokemon. For example:https://pokeapi.co/api/v2/pokemon/1 would get you the information for bulbasaur, while https://pokeapi.co/api/v2/pokemon/2 would get you a different pokemon. I made the request only for https://pokeapi.co/api/v2/pokemon/, then used the random number function to account for the last value of the url. This way, everytime a user refreshes the page they obtain information about different pokemon.  The API returned a JSON object with key-value pairs such as "ability", "name", and "type". Then, I processed the data to only display the name of the pokemon and their type, although there are many different options. There was no specific parameter that needed to be sent when making the request. In this API, all we want to do is make a request to the API which will return 1 pokemon and its type. No parameters are required.. </p>
+
+	<p> 4. The purpose of this API is to retrieve information about different pokemon. Some uses of it include:
+		<ul> 
+			<li> Video Games: Pokemon is a very popular game. This api could be used to organize and portray information about pokemon for the players. This could help them decide which pokemon to use or catch.</li>
+			<li> Game blogs: Game blogs could use this api to post daily fun facts about pokemon or use it to discuss/compare them to one another.</li>
+		</ul>
+	 </p>
+
+</body>
+</html>
